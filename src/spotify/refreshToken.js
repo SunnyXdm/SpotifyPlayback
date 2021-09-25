@@ -8,7 +8,17 @@ const refreshToken = async refresh_token => {
 			'https://accounts.spotify.com/api/token',
 			dataString
 		);
-		return result;
+		if (result.data.refresh_token) {
+			return {
+				refresh_token: result.data.refresh_token,
+				spotify_token: result.data.access_token
+			};
+		} else {
+			//if (result.data.spotify_token)
+			return {
+				spotify_token: result.data.access_token
+			};
+		}
 	} catch (error) {
 		return error;
 	}
