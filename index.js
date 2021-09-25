@@ -1,38 +1,16 @@
-import { getUsers, updateUser, bulkUserUpdate } from './mongoDb.js';
-import { Spotify } from './spotify.js';
-import { tgPost } from './telegram.js';
-
-const sleep = ms => {
-	return new Promise(resolve => setTimeout(resolve, ms));
-};
-
-//updating the users database with new tokens
-const updateDb = async status => {
-	const updateData = [];
-	status.map(user => {
-		if (user.new_token) {
-			updateData.push({
-				updateOne: {
-					filter: { _id: user.user_id },
-					update: { $set: user.tokens },
-					upsert: false
-				}
-			});
-		}
-	});
-	if (!!updateData.length) {
-		bulkUserUpdate(updateData);
-		console.log('DB Updated');
-	}
-};
+import getUsers from './src/database/getUsers.js';
+import spotify from './src/spotify/spotify.js';
+import telegram from './src/telegram/telegram.js';
+import sleep from './src/utils/sleep.js';
+import updateTokens from './src/utils/updateTokens.js';
 
 //main function to combine everything together
 const main = async () => {
 	const start = Date.now();
 	const users = await getUsers();
-	const playback = await Spotify(users);
+	const playback = await spotify(users);
 	const playbackCopy = [...playback];
-	await Promise.all([tgPost(playback), updateDb(playbackCopy)]);
+	await Promise.all([telegram(playback), updateTokens(playbackCopy)]);
 	const end = Date.now();
 	const timeTaken = end - start;
 	if (timeTaken < 20000) {
@@ -45,13 +23,7 @@ const run = async () => {
 		const start = Date.now();
 		await main();
 		const end = Date.now();
-		console.log(end-start);
+		console.log(end - start);
 	}
 };
 run();
-// setInterval(async () => {
-// 	const start = Date.now();
-// 	await main()
-// 	const end = Date.now();
-// 	console.log(end-start)
-// 	}, 20000)
