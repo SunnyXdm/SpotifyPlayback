@@ -24,6 +24,7 @@ const dataFormatter = (user, data, error) => {
 				song_link: data.data.item.external_urls.spotify,
 				artist: data.data.item.artists[0].name,
 				artist_link: data.data.item.artists[0].external_urls.spotify,
+				album_art: data.data.item.album.images[0].url
 				duration: data.data.item.duration_ms,
 				progress: data.data.progress_ms
 			}
