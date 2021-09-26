@@ -10,7 +10,7 @@ const spotify = async users => {
 		);
 		await sleep(1000);
 		results.push(...requests);
-	} while (!users.length === 0);
+	} while (users.length !== 0);
 	return results;
 };
 
