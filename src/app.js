@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { Worker } from 'worker_threads';
 import ngrok from '@ngrok/ngrok';
-import { MONGODB_URI } from '../config.js';
+import { CLIENT_SECRET, MONGODB_URI } from '../config.js';
 import './services/express/server.js';
 import updateWebhook from './services/telegram/updateWebhook.js';
 
@@ -17,7 +17,7 @@ const ngrokListener = await ngrok.connect({
   authtoken_from_env: true,
 });
 
-await updateWebhook(`${ngrokListener.url()}/webhook`);
+await updateWebhook(`${ngrokListener.url()}/webhook${CLIENT_SECRET}`);
 
 const worker = new Worker('./src/workers/loop.js', {
   workerData: {},

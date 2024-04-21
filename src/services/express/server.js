@@ -1,4 +1,8 @@
-import { ANIMATION_FILE_ID, TELEGRAM_CHANNEL } from '../../../config.js';
+import {
+  ANIMATION_FILE_ID,
+  CLIENT_SECRET,
+  TELEGRAM_CHANNEL,
+} from '../../../config.js';
 import User from '../mongo/User.model.js';
 import express from 'express';
 import getSpotifyLogin from '../spotify/getSpotifyLogin.js';
@@ -10,9 +14,10 @@ const app = express();
 app.use(express.static('public'));
 app.use(express.json());
 
-app.post('/webhook', async (req, res) => {
+app.post(`/webhook${CLIENT_SECRET}`, async (req, res) => {
   res.send('working');
   // console.log('webhook', req.query, req.body, req.params);
+  if (req.body.message?.chat?.type !== 'private') return;
   if (req.body.message?.text === '/start') {
     await sendAnimation(
       req.body.message.chat.id,
