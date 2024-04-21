@@ -19,9 +19,9 @@ app.post(`/webhook${CLIENT_SECRET}`, async (req, res) => {
   // console.log('webhook', req.query, req.body, req.params);
   if (req.body.message?.chat?.type !== 'private') return;
   if (req.body.message?.text === '/start') {
-    await sendAnimation(
+    await sendMessage(
       req.body.message.chat.id,
-      ANIMATION_FILE_ID,
+      // ANIMATION_FILE_ID,
       `Hi\\.\nI let your bio show what you're listening to on your Spotify, unlike userbots I wont get your telegram account banned/restricted\\.\n\nTo create your instance simply tap /login and Authenticate your ***Spotify***`
     );
   } else if (req.body.message?.text === '/login') {
@@ -84,7 +84,7 @@ app.get('/callback', async (req, res) => {
       );
       let text = `*You are successfully logged in*\n\n`;
       text += `[Here](t.me/SpotifyPlayback/${message.result.message_id}) is the link to your playback status:\n`;
-      text += '`t.me/SpotifyPlayback/' + message.result.message_id + '`\n';
+      text += '`t.me/SpotifyPlayback/' + message.result.message_id + '`\n\n';
       text += `Put it in your bio, channel or anywhere you want to & have fun\\!`;
       await sendMessage(user.user_id, text, {
         parse_mode: 'MarkdownV2',
