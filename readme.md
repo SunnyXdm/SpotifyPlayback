@@ -24,7 +24,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## Copyright
-Copyright (C) 2021 [Sunny](https://github.com/SunnyXdm)
+Copyright (C) 2024 [Sunny](https://github.com/SunnyXdm)
 
 ## License
 [Mozilla Public License Version 2.0](https://github.com/SunnyXdm/SpotifyPlayback/blob/master/LICENSE)
