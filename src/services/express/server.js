@@ -17,14 +17,14 @@ app.use(express.json());
 app.post(`/webhook${CLIENT_SECRET}`, async (req, res) => {
   res.send('working');
   // console.log('webhook', req.query, req.body, req.params);
-  if (req.body.message?.chat?.type !== 'private') return;
-  if (req.body.message?.text === '/start') {
+  if (req.body?.message?.chat?.type !== 'private') return;
+  if (req.body?.message?.text?.startsWith?.('/start')) {
     await sendAnimation(
       req.body.message.chat.id,
       ANIMATION_FILE_ID,
       `Hi\\.\nI let your bio show what you're listening to on your Spotify, unlike userbots I wont get your telegram account banned/restricted\\.\n\nTo create your instance simply tap /login and Authenticate your ***Spotify***`
     );
-  } else if (req.body.message?.text === '/login') {
+  } else if (req.body?.message?.text?.startsWith?.('/login')) {
     const exists = await User.findOne({
       user_id: req.body.message.from.id,
     });
